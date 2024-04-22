@@ -1,7 +1,7 @@
 #include <Servo.h>
 Servo myservo;
-#define TRIG_PIN=A1  // ultrasonic module  TRIG to A1
-#define ECHO_PIN=A0  // ultrasonic module   ECHO to A0
+#define TRIG_PIN A1  // ultrasonic module  TRIG to A1
+#define ECHO_PIN A0  // ultrasonic module   ECHO to A0
 #define Lpwm_pin  5     //pin of controlling speed---- ENA of motor driver board
 #define Rpwm_pin  6    //pin of controlling speed---- ENB of motor driver board
 int pinLB=2;             //pin of controlling turning---- IN1 of motor driver board
@@ -22,7 +22,7 @@ int pos=0;
     move bot backwards
 */
 
-// This is the set up code 
+// This is the set up code, shouldn't have to worry about this.
 void setup() 
 {
   myservo.attach(A2);
@@ -60,6 +60,8 @@ float check_distance() {
   return distance;
 }
 
+// In this function the robot tries to keep whatever object it is following
+// exactly 20cm away from it. 
 void cruise_control()
 {
   int cruise_distance = check_distance(); 
