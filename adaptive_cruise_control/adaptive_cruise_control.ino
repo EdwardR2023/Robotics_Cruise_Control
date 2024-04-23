@@ -65,7 +65,7 @@ float check_distance() {
 void cruise_control()
 {
   int cruise_distance = check_distance(); 
-  if (cruise_distance > 20 && cruise_distance < 100)
+  if (cruise_distance > 30 && cruise_distance < 100)
   {
     go_forward(100); 
   }
@@ -73,7 +73,7 @@ void cruise_control()
   {
     go_backward(100);
   }
-  else if (cruise_distance == 20)
+  else if (cruise_distance <= 30 && cruise_distance >= 20)
   {
     stop();
   }
