@@ -65,13 +65,13 @@ float check_distance() {
 void cruise_control()
 {
   int cruise_distance = check_distance(); 
-  if (cruise_distance > 20 && cruise_distance < 200)
+  if (cruise_distance > 20 && cruise_distance < 100)
   {
-    go_forward(75); 
+    go_forward(100); 
   }
   else if (cruise_distance < 20 && cruise_distance > 0)
   {
-    go_backward(75);
+    go_backward(100);
   }
   else if (cruise_distance == 20)
   {
@@ -97,7 +97,7 @@ void turn_bot(int distance, int degree)
   {
     while (curr_distance < l_distance || curr_distance > u_distance)
     {
-      rotate_left(75);
+      rotate_right(125);
       delay(100);
       curr_distance = check_distance();
     }
@@ -109,7 +109,7 @@ void turn_bot(int distance, int degree)
   else {
     while (curr_distance < l_distance || curr_distance > u_distance)
     {
-      rotate_right();
+      rotate_left(75);
       delay(100);
       curr_distance = check_distance();
     }
@@ -127,7 +127,7 @@ void determine_follow(int distance, int degree)
   if ((distance <= 30) && (distance >= 0))
   {
     myservo.write(90);
-    delay(50); 
+    delay(20); 
     turn_bot(distance, degree);
   } 
   else 
@@ -141,20 +141,19 @@ void ultrasonic_servo()
 {
   for (pos = 0; pos <= 180; pos++) 
   { // goes from 0 degrees to 180 degrees
-    delay(50);
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(50);                       // waits 15ms for the servo to reach the position
+    //delay(10);                       // waits 15ms for the servo to reach the position
 
     ult_distance = check_distance();
+    
 
     determine_follow(ult_distance, pos);
   }
 
   for (pos = 180; pos >= 0; pos--) 
   { // goes from 180 degrees to 0 degrees
-    delay(50); 
     myservo.write(pos);              // tell servo to go to position in variable 'pos'
-    delay(50);                       // waits 15ms for the servo to reach the position
+    //delay(10);                       // waits 15ms for the servo to reach the position
 
     ult_distance = check_distance();
 
