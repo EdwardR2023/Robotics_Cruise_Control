@@ -10,6 +10,8 @@ int pinRB=7;            //pin of controlling turning---- IN3 of motor driver boa
 int pinRF=8;            //pin of controlling turning---- IN4 of motor driver board
 int ult_distance=0; 
 int pos=0;
+int s_left = 100; 
+int s_right = 100; 
 
 /* 
 1. Scan 180 degrees in front of bot
@@ -67,11 +69,11 @@ void cruise_control()
   int cruise_distance = check_distance(); 
   if (cruise_distance > 30 && cruise_distance < 100)
   {
-    go_forward(100); 
+    go_forward(); 
   }
   else if (cruise_distance < 20 && cruise_distance > 0)
   {
-    go_backward(100);
+    go_backward();
   }
   else if (cruise_distance <= 30 && cruise_distance >= 20)
   {
@@ -79,6 +81,7 @@ void cruise_control()
   }
   else 
   {
+    stop();
     loop();
   }
 
@@ -90,14 +93,14 @@ void cruise_control()
 void turn_bot(int distance, int degree)
 {
   int curr_distance = 0; 
-  int u_distance = distance + 15; 
-  int l_distance = distance - 15; 
+  int u_distance = distance + 10; 
+  int l_distance = distance - 10; 
 
   if (degree >= 90)
   {
     while (curr_distance < l_distance || curr_distance > u_distance)
     {
-      rotate_right(125);
+      rotate_right();
       delay(100);
       curr_distance = check_distance();
     }
@@ -109,7 +112,7 @@ void turn_bot(int distance, int degree)
   else {
     while (curr_distance < l_distance || curr_distance > u_distance)
     {
-      rotate_left(75);
+      rotate_left();
       delay(100);
       curr_distance = check_distance();
     }
@@ -161,44 +164,44 @@ void ultrasonic_servo()
   }
 }
 
-void go_forward(unsigned char speed_val)    // speed_val：0~255
+void go_forward()    // speed_val：0~255
 {
   digitalWrite(pinRB,HIGH); 
   digitalWrite(pinRF,LOW);
   digitalWrite(pinLB,HIGH);
   digitalWrite(pinLF,LOW);
-  analogWrite(Lpwm_pin,speed_val);
-  analogWrite(Rpwm_pin,speed_val); 
+  analogWrite(Lpwm_pin, s_right);
+  analogWrite(Rpwm_pin, s_left); 
 }
 
-void go_backward(unsigned char speed_val)    // speed_val：0~255
+void go_backward()    // speed_val：0~255
 {
   digitalWrite(pinRB,LOW);  
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,LOW);  
   digitalWrite(pinLF,HIGH);
-  analogWrite(Lpwm_pin,speed_val);
-  analogWrite(Rpwm_pin,speed_val);
+  analogWrite(Lpwm_pin, s_right);
+  analogWrite(Rpwm_pin,s_left);
 }
     
-void rotate_left(unsigned char speed_val)        // speed_val：0~255
+void rotate_left()        // speed_val：0~255
 {
   digitalWrite(pinRB,HIGH);
   digitalWrite(pinRF,LOW );  
   digitalWrite(pinLB,LOW); 
   digitalWrite(pinLF,HIGH);
-  analogWrite(Lpwm_pin,speed_val);
-  analogWrite(Rpwm_pin,speed_val);
+  analogWrite(Lpwm_pin,s_right);
+  analogWrite(Rpwm_pin,s_left);
 }
 
-void rotate_right(unsigned char speed_val)    // speed_val：0~255
+void rotate_right()    // speed_val：0~255
 {
   digitalWrite(pinRB,LOW);  
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,HIGH);
   digitalWrite(pinLF,LOW);  
-  analogWrite(Lpwm_pin,speed_val);
-  analogWrite(Rpwm_pin,speed_val);
+  analogWrite(Lpwm_pin, s_right);
+  analogWrite(Rpwm_pin,s_left);
 }  
 
 void stop()        //stop
